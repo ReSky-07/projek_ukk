@@ -17,7 +17,7 @@ class AuthenticatedSessionController extends Controller
     public function create(): View
     {
         return view('auth.login');
-    }
+    }   
 
     /**
      * Handle an incoming authentication request.
@@ -28,7 +28,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return match (Auth::user()->role) {
+            'admin' => redirect()->intended('/admin/dashboard'),
+            default => redirect()->intended('/siswa/dashboard'),
+        };
     }
 
     /**
