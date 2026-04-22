@@ -14,7 +14,7 @@ class AdminPeminjamanController extends Controller
         return view('admin.peminjaman.index', compact('data'));
     }
 
-    public function kembalikan($id)
+    public function konfirmasi($id)
     {
         $pinjam = Peminjaman::findOrFail($id);
 
@@ -25,6 +25,6 @@ class AdminPeminjamanController extends Controller
 
         $pinjam->buku->increment('stok');
 
-        return back()->with('success', 'Buku berhasil dikembalikan');
+        return back()->with('success', 'Pengembalian dikonfirmasi');
     }
 }

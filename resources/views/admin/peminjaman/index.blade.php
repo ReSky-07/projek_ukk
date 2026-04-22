@@ -12,6 +12,12 @@
 
                     <h1 class="mt-4">Data Peminjaman</h1>
 
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
                     <div class="card">
                         <div class="card-body">
 
@@ -20,8 +26,6 @@
                                     <th>No</th>
                                     <th>Siswa</th>
                                     <th>Buku</th>
-                                    <th>Tanggal Pinjam</th>
-                                    <th>Batas Kembali</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -31,25 +35,26 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $row->user->name }}</td>
                                     <td>{{ $row->buku->judul }}</td>
-                                    <td>{{ $row->tanggal_pinjam }}</td>
-                                    <td>{{ $row->tanggal_kembali }}</td>
-                                    <td>{{ $row->status }}</td>
+
                                     <td>
+                                        {{ $row->status }}
+                                    </td>
 
-                                        @if($row->status == 'dipinjam')
+                                    <td>
+                                        @if($row->status == 'menunggu_konfirmasi')
 
-                                        <form action="{{ route('admin.kembalikan',$row->id) }}" method="POST">
+                                        <form action="{{ route('admin.konfirmasi',$row->id) }}" method="POST">
                                             @csrf
                                             <button class="btn btn-success btn-sm">
-                                                Kembalikan
+                                                Konfirmasi
                                             </button>
                                         </form>
 
                                         @else
-                                        <span class="badge bg-success">Selesai</span>
+                                        -
                                         @endif
-
                                     </td>
+
                                 </tr>
                                 @endforeach
 

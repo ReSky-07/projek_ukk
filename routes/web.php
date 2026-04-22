@@ -59,10 +59,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // CRUD Buku
     Route::resource('buku', AdminBukuController::class);
     // Peminjaman
-    Route::get('/peminjaman', [AdminPeminjamanController::class, 'index'])
-        ->name('peminjaman.index');
-    Route::post('/kembalikan/{id}', [AdminPeminjamanController::class, 'kembalikan'])
-        ->name('kembalikan');
+    Route::get('/peminjaman', [AdminPeminjamanController::class, 'index'])->name('peminjaman.index');
+    Route::post('/konfirmasi/{id}', [AdminPeminjamanController::class, 'konfirmasi'])->name('konfirmasi');
 });
 
 require __DIR__ . '/auth.php';

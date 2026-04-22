@@ -24,10 +24,11 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <th>No</th>
-                                    <th>Judul Buku</th>
+                                    <th>Buku</th>
                                     <th>Tanggal Pinjam</th>
                                     <th>Batas Kembali</th>
                                     <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
 
                                 @foreach($data as $row)
@@ -36,7 +37,34 @@
                                     <td>{{ $row->buku->judul }}</td>
                                     <td>{{ $row->tanggal_pinjam }}</td>
                                     <td>{{ $row->tanggal_kembali }}</td>
-                                    <td>{{ $row->status }}</td>
+
+                                    <td>
+                                        @if($row->status == 'dipinjam')
+                                        <span class="badge bg-warning">Dipinjam</span>
+
+                                        @elseif($row->status == 'menunggu_konfirmasi')
+                                        <span class="badge bg-info">Menunggu Admin</span>
+
+                                        @else
+                                        <span class="badge bg-success">Dikembalikan</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if($row->status == 'dipinjam')
+
+                                        <form action="{{ route('siswa.kembalikan',$row->id) }}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-danger btn-sm">
+                                                Ajukan Pengembalian
+                                            </button>
+                                        </form>
+
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
+
                                 </tr>
                                 @endforeach
 

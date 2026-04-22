@@ -11,7 +11,50 @@
                 <div class="container-fluid px-4">
 
                     <h1 class="mt-4">Daftar Buku</h1>
+                    <div class="card mb-4">
+                        <div class="card-body">
 
+                            <form method="GET" action="{{ route('siswa.buku.index') }}">
+                                <div class="row">
+
+                                    <div class="col-md-5">
+                                        <input type="text"
+                                            name="judul"
+                                            class="form-control"
+                                            placeholder="Cari judul buku..."
+                                            value="{{ request('judul') }}">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <select name="kategori_id" class="form-control">
+                                            <option value="">Semua Kategori</option>
+
+                                            @foreach($kategoris as $kategori)
+                                            <option value="{{ $kategori->id }}"
+                                                {{ request('kategori_id') == $kategori->id ? 'selected' : '' }}>
+                                                {{ $kategori->nama_kategori }}
+                                            </option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <button class="btn btn-primary">
+                                            Cari
+                                        </button>
+
+                                        <a href="{{ route('siswa.buku.index') }}"
+                                            class="btn btn-secondary">
+                                            Reset
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
                     @if(session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
