@@ -13,15 +13,15 @@
                     </ol>
                     <div class="row">
 
-                        {{-- Jumlah User --}}
+                        {{-- Jumlah Buku --}}
                         <div class="col-xl-3 col-md-6">
                             <div class="card bg-primary text-white mb-4">
                                 <div class="card-body">
-                                    <h5></h5>
-                                    <p class="mb-0">Jumlah User</p>
+                                    <h5>{{ $bukuCount }}</h5>
+                                    <p class="mb-0">Jumlah Buku</p>
                                 </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="">
+                                    <a class="small text-white stretched-link" href="{{ route('siswa.buku.index') }}">
                                         Lihat Data
                                     </a>
                                     <div class="small text-white"><i class="fas fa-users"></i></div>
@@ -29,15 +29,15 @@
                             </div>
                         </div>
 
-                        {{-- Jumlah Alat --}}
+                        {{-- Jumlah Buku Dipinjam --}}
                         <div class="col-xl-3 col-md-6">
                             <div class="card bg-warning text-white mb-4">
                                 <div class="card-body">
-                                    <h5></h5>
-                                    <p class="mb-0">Jumlah Alat</p>
+                                    <h5>{{ $dipinjam }}</h5>
+                                    <p class="mb-0">Jumlah Dipinjam</p> <!-- jumlah buku yang dipinjam -->
                                 </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="">
+                                    <a class="small text-white stretched-link" href="{{ route('siswa.peminjaman.index') }}">
                                         Lihat Data
                                     </a>
                                     <div class="small text-white"><i class="fas fa-toolbox"></i></div>
@@ -45,15 +45,15 @@
                             </div>
                         </div>
 
-                        {{-- Jumlah Kategori --}}
+                        {{-- Jumlah Buku Menunggu Dipinjam --}}
                         <div class="col-xl-3 col-md-6">
                             <div class="card bg-success text-white mb-4">
                                 <div class="card-body">
-                                    <h5></h5>
-                                    <p class="mb-0">Jumlah Kategori</p>
+                                    <h5>{{ $menunggu }}</h5>
+                                    <p class="mb-0">Jumlah Menunggu</p>
                                 </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="">
+                                    <a class="small text-white stretched-link" href="{{ route('siswa.peminjaman.index') }}">
                                         Lihat Data
                                     </a>
                                     <div class="small text-white"><i class="fas fa-tags"></i></div>
@@ -61,15 +61,15 @@
                             </div>
                         </div>
 
-                        {{-- Jumlah Peminjaman --}}
+                        {{-- Jumlah Dikembalikan --}}
                         <div class="col-xl-3 col-md-6">
                             <div class="card bg-danger text-white mb-4">
                                 <div class="card-body">
-                                    <h5></h5>
-                                    <p class="mb-0">Total Peminjaman</p>
+                                    <h5>{{ $dikembalikan }}</h5>
+                                    <p class="mb-0">Jumlah Dikembalikan</p>
                                 </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="">
+                                    <a class="small text-white stretched-link" href="{{ route('siswa.peminjaman.index') }}">
                                         Lihat Data
                                     </a>
                                     <div class="small text-white"><i class="fas fa-clipboard-list"></i></div>

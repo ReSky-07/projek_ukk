@@ -3,7 +3,7 @@
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Core</div>
-                <a class="nav-link {{ request()->routeIs('admin.index') ? 'active' : '' }}" href="">
+                <a class="nav-link {{ request()->routeIs('admin.*') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
@@ -22,7 +22,7 @@
                     </div>
                     Buku
                 </a>
-                <a class="nav-link {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}"
+                <a class="nav-link {{ request()->routeIs('admin.kategoris.*') ? 'active' : '' }}"
                     href="{{ route('admin.kategoris.index') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-tags"></i></div>
                     Kategori

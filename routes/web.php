@@ -61,6 +61,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Peminjaman
     Route::get('/peminjaman', [AdminPeminjamanController::class, 'index'])->name('peminjaman.index');
     Route::post('/konfirmasi/{id}', [AdminPeminjamanController::class, 'konfirmasi'])->name('konfirmasi');
+    // Pdf
+    Route::get('peminjaman/cetak', [AdminPeminjamanController::class, 'cetakPdf'])->name('peminjaman.cetak');
 });
 
 require __DIR__ . '/auth.php';

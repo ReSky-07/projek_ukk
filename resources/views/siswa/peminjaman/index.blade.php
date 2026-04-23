@@ -18,6 +18,28 @@
                     </div>
                     @endif
 
+                    <form method="GET" class="row mb-3">
+
+                        <div class="col-md-3">
+                            <label>Dari Tanggal</label>
+                            <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Sampai Tanggal</label>
+                            <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+                        </div>
+
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-primary me-2">Filter</button>
+
+                            <a href="{{ route('siswa.peminjaman.index') }}" class="btn btn-secondary">
+                                Reset
+                            </a>
+                        </div>
+
+                    </form>
+
                     <div class="card">
                         <div class="card-body">
 
@@ -27,6 +49,7 @@
                                     <th>Buku</th>
                                     <th>Tanggal Pinjam</th>
                                     <th>Batas Kembali</th>
+                                    <th>denda</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -37,6 +60,9 @@
                                     <td>{{ $row->buku->judul }}</td>
                                     <td>{{ $row->tanggal_pinjam }}</td>
                                     <td>{{ $row->tanggal_kembali }}</td>
+                                    <td>
+                                        Rp {{ number_format($row->denda ?? 0) }}
+                                    </td>
 
                                     <td>
                                         @if($row->status == 'menunggu')

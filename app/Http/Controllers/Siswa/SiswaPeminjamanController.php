@@ -19,9 +19,9 @@ class SiswaPeminjamanController extends Controller
             $query->where('judul', 'like', '%' . $request->judul . '%');
         }
 
-        if ($request->filled('kategori_id')) {
+        if (!empty($request->kategori_id)) {
             $query->whereHas('kategoris', function ($q) use ($request) {
-                $q->where('kategoris.id', $request->kategori_id);
+                $q->whereIn('kategoris.id', $request->kategori_id);
             });
         }
 
@@ -57,12 +57,17 @@ class SiswaPeminjamanController extends Controller
             ->with('success', 'Menunggu konfirmasi admin');
     }
 
-    public function peminjaman()
+    public function peminjaman(Request $request)
     {
-        $data = Peminjaman::with('buku')
-            ->where('user_id', Auth::id())
-            ->latest()
-            ->get();
+        $query = Peminjaman::with('buku')
+            ->where('user_id', Auth::id());
+
+        // FILTER TANGGAL
+        if ($request->filled('from') && $request->filled('to')) {
+            $query->whereBetween('tanggal_pinjam', [$request->from, $request->to]);
+        }
+
+        $data = $query->latest()->get();
 
         return view('siswa.peminjaman.index', compact('data'));
     }
