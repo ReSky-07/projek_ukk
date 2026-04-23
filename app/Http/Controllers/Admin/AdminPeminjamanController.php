@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AdminPeminjamanController extends Controller
@@ -50,18 +51,33 @@ class AdminPeminjamanController extends Controller
             $pinjam->buku->decrement('stok');
         } elseif ($pinjam->status == 'menunggu_konfirmasi') {
 
+            $dendaPerHari = 1000;
+
+            $today = Carbon::now();
+            $batas = Carbon::parse($pinjam->tanggal_kembali);
+
+            // hitung selisih hari (kalau negatif = tidak telat)
+            $telat = $batas->diffInDays($today, false);
+
+            $denda = 0;
+
+            if ($telat > 0) {
+                $denda = $telat * $dendaPerHari;
+            }
+
+            // kalau admin isi manual → override
+            if ($request->filled('denda')) {
+                $denda = $request->denda;
+            }
+
             $pinjam->update([
                 'status' => 'dikembalikan',
                 'tanggal_dikembalikan' => now(),
-                'denda' => $request->denda ?? 0
+                'denda' => $denda
             ]);
 
             $pinjam->buku->increment('stok');
         }
-
-        $request->validate([
-            'denda' => 'nullable|integer|min:0'
-        ]);
 
         return back()->with('success', 'Berhasil dikonfirmasi');
     }

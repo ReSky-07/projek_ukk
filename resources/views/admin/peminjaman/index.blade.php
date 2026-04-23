@@ -111,9 +111,8 @@
                                                     type="number"
                                                     name="denda"
                                                     class="form-control form-control-sm"
-                                                    placeholder="Input denda"
-                                                    min="0"
-                                                    required>
+                                                    placeholder="Denda Telat Otomatis"
+                                                    min="0">
                                             </div>
 
                                             <button class="btn btn-primary btn-sm">
