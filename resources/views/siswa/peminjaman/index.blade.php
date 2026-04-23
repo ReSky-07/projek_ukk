@@ -39,20 +39,22 @@
                                     <td>{{ $row->tanggal_kembali }}</td>
 
                                     <td>
-                                        @if($row->status == 'dipinjam')
-                                        <span class="badge bg-warning">Dipinjam</span>
+                                        @if($row->status == 'menunggu')
+                                        <span class="badge bg-warning">Menunggu Konfirmasi</span>
+
+                                        @elseif($row->status == 'dipinjam')
+                                        <span class="badge bg-primary">Sedang Dipinjam</span>
 
                                         @elseif($row->status == 'menunggu_konfirmasi')
-                                        <span class="badge bg-info">Menunggu Admin</span>
+                                        <span class="badge bg-info">Menunggu Persetujuan Admin</span>
 
-                                        @else
-                                        <span class="badge bg-success">Dikembalikan</span>
+                                        @elseif($row->status == 'dikembalikan')
+                                        <span class="badge bg-success">Selesai</span>
                                         @endif
                                     </td>
 
                                     <td>
                                         @if($row->status == 'dipinjam')
-
                                         <form action="{{ route('siswa.kembalikan',$row->id) }}" method="POST">
                                             @csrf
                                             <button class="btn btn-danger btn-sm">
@@ -60,8 +62,14 @@
                                             </button>
                                         </form>
 
+                                        @elseif($row->status == 'menunggu')
+                                        <span class="text-muted">Menunggu Admin</span>
+
+                                        @elseif($row->status == 'menunggu_konfirmasi')
+                                        <span class="text-info">Diproses Admin</span>
+
                                         @else
-                                        -
+                                        <span class="text-success">Selesai</span>
                                         @endif
                                     </td>
 

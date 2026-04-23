@@ -10,7 +10,6 @@ class AdminPeminjamanController extends Controller
     public function index()
     {
         $data = Peminjaman::with('user', 'buku')->latest()->get();
-
         return view('admin.peminjaman.index', compact('data'));
     }
 
@@ -18,13 +17,30 @@ class AdminPeminjamanController extends Controller
     {
         $pinjam = Peminjaman::findOrFail($id);
 
-        $pinjam->update([
-            'status' => 'dikembalikan',
-            'tanggal_dikembalikan' => now()
-        ]);
+        if ($pinjam->status == 'menunggu') {
 
-        $pinjam->buku->increment('stok');
+            if ($pinjam->buku->stok <= 0) {
+                return back()->with('error', 'Stok buku habis');
+            }
 
-        return back()->with('success', 'Pengembalian dikonfirmasi');
+            $pinjam->update([
+                'status' => 'dipinjam'
+            ]);
+
+            // Kurangi stok saat disetujui
+            $pinjam->buku->decrement('stok');
+        }
+
+        elseif ($pinjam->status == 'menunggu_konfirmasi') {
+
+            $pinjam->update([
+                'status' => 'dikembalikan',
+                'tanggal_dikembalikan' => now()
+            ]);
+
+            $pinjam->buku->increment('stok');
+        }
+
+        return back()->with('success', 'Berhasil dikonfirmasi');
     }
 }

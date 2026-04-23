@@ -34,7 +34,17 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $buku->judul }}</td>
                                     <td>{{ $buku->stok }}</td>
-                                    <td>{{ $buku->kategori->nama_kategori }}</td>
+                                    <td>
+                                        @foreach($buku->kategoris as $kategori)
+                                        <span class="badge bg-primary">
+                                            {{ $kategori->nama_kategori }}
+                                        </span>
+                                        @endforeach
+
+                                        @if($buku->kategoris->isEmpty())
+                                        <span class="text-muted">Tidak ada kategori</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if($buku->gambar)
                                         <img src="{{ asset('storage/'.$buku->gambar) }}" width="70">

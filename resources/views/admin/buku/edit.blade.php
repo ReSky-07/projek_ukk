@@ -54,14 +54,34 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Kategori</label>
-                                    <select name="kategori_id" class="form-control">
+
+                                    <div class="row">
                                         @foreach($kategoris as $kategori)
-                                        <option value="{{ $kategori->id }}"
-                                            {{ old('kategori_id', $buku->kategori_id) == $kategori->id ? 'selected' : '' }}>
-                                            {{ $kategori->nama_kategori }}
-                                        </option>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input
+                                                    type="checkbox"
+                                                    name="kategori_id[]"
+                                                    value="{{ $kategori->id }}"
+                                                    class="form-check-input"
+                                                    id="kategori{{ $kategori->id }}"
+
+                                                    {{ in_array(
+                            $kategori->id, 
+                            old('kategori_id', $buku->kategoris->pluck('id')->toArray())
+                        ) ? 'checked' : '' }}>
+
+                                                <label class="form-check-label" for="kategori{{ $kategori->id }}">
+                                                    {{ $kategori->nama_kategori }}
+                                                </label>
+                                            </div>
+                                        </div>
                                         @endforeach
-                                    </select>
+                                    </div>
+
+                                    @error('kategori_id')
+                                    <small class="text-danger d-block mt-2">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <div class="mb-3">

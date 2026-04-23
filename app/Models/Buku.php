@@ -9,13 +9,12 @@ class Buku extends Model
 
     protected $fillable = [
         'judul',
-        'kategori_id',
         'stok',
         'gambar'
     ];
-    public function kategori()
+    public function kategoris()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsToMany(Kategori::class, 'buku_kategori');
     }
     public function peminjamans()
     {

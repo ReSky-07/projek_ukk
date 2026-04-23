@@ -11,45 +11,32 @@ use Illuminate\Support\Facades\Auth;
 
 class SiswaPeminjamanController extends Controller
 {
-    /**
-     * Daftar buku + search + filter kategori
-     */
     public function index(Request $request)
     {
-        $query = Buku::with('kategori');
+        $query = Buku::with('kategoris');
 
-        // Search judul buku
         if ($request->filled('judul')) {
             $query->where('judul', 'like', '%' . $request->judul . '%');
         }
 
-        // Filter kategori
         if ($request->filled('kategori_id')) {
-            $query->where('kategori_id', $request->kategori_id);
+            $query->whereHas('kategoris', function ($q) use ($request) {
+                $q->where('kategoris.id', $request->kategori_id);
+            });
         }
 
-        // Urut terbaru
         $bukus = $query->latest()->get();
-
-        // Ambil kategori untuk dropdown
         $kategoris = Kategori::all();
 
         return view('siswa.buku.index', compact('bukus', 'kategoris'));
     }
 
-    /**
-     * Form pinjam buku
-     */
     public function create($id)
     {
         $buku = Buku::findOrFail($id);
-
         return view('siswa.buku.pinjam', compact('buku'));
     }
 
-    /**
-     * Simpan peminjaman
-     */
     public function store(Request $request)
     {
         $buku = Buku::findOrFail($request->buku_id);
@@ -63,19 +50,13 @@ class SiswaPeminjamanController extends Controller
             'buku_id' => $buku->id,
             'tanggal_pinjam' => now(),
             'tanggal_kembali' => now()->addDays(7),
-            'status' => 'dipinjam'
+            'status' => 'menunggu'
         ]);
 
-        // Kurangi stok
-        $buku->decrement('stok');
-
         return redirect()->route('siswa.peminjaman.index')
-            ->with('success', 'Buku berhasil dipinjam');
+            ->with('success', 'Menunggu konfirmasi admin');
     }
 
-    /**
-     * Riwayat peminjaman siswa
-     */
     public function peminjaman()
     {
         $data = Peminjaman::with('buku')
@@ -86,14 +67,10 @@ class SiswaPeminjamanController extends Controller
         return view('siswa.peminjaman.index', compact('data'));
     }
 
-    /**
-     * Siswa ajukan pengembalian
-     */
     public function kembalikan($id)
     {
         $pinjam = Peminjaman::findOrFail($id);
 
-        // Pastikan milik user yang login
         if ($pinjam->user_id != Auth::id()) {
             abort(403);
         }

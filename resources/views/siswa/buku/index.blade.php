@@ -87,7 +87,10 @@
                                         <div class="card-body d-flex flex-column">
                                             <h5 class="card-title">{{ $buku->judul }}</h5>
                                             <p class="card-text mb-1">
-                                                <strong>Kategori:</strong> {{ $buku->kategori->nama_kategori }}
+                                                <strong>Kategori:</strong><br>
+                                                @foreach($buku->kategoris as $kategori)
+                                                <span class="badge bg-primary">{{ $kategori->nama_kategori }}</span>
+                                                @endforeach
                                             </p>
                                             <p class="card-text mb-2">
                                                 <strong>Stok:</strong> {{ $buku->stok }}

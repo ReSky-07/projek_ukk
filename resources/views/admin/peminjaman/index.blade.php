@@ -37,24 +37,38 @@
                                     <td>{{ $row->buku->judul }}</td>
 
                                     <td>
-                                        {{ $row->status }}
+                                        @if($row->status == 'menunggu')
+                                        <span class="badge bg-warning">Menunggu</span>
+                                        @elseif($row->status == 'dipinjam')
+                                        <span class="badge bg-primary">Dipinjam</span>
+                                        @elseif($row->status == 'menunggu_konfirmasi')
+                                        <span class="badge bg-info">Menunggu Pengembalian</span>
+                                        @elseif($row->status == 'dikembalikan')
+                                        <span class="badge bg-success">Dikembalikan</span>
+                                        @endif
                                     </td>
 
                                     <td>
-                                        @if($row->status == 'menunggu_konfirmasi')
-
+                                        @if($row->status == 'menunggu')
                                         <form action="{{ route('admin.konfirmasi',$row->id) }}" method="POST">
                                             @csrf
                                             <button class="btn btn-success btn-sm">
-                                                Konfirmasi
+                                                Konfirmasi Pinjam
+                                            </button>
+                                        </form>
+
+                                        @elseif($row->status == 'menunggu_konfirmasi')
+                                        <form action="{{ route('admin.konfirmasi',$row->id) }}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-primary btn-sm">
+                                                Konfirmasi Kembali
                                             </button>
                                         </form>
 
                                         @else
-                                        -
+                                        <span class="text-muted">-</span>
                                         @endif
                                     </td>
-
                                 </tr>
                                 @endforeach
 

@@ -15,7 +15,7 @@ class AdminBukuController extends Controller
      */
     public function index()
     {
-        $bukus = Buku::with('kategori')->latest()->get();
+        $bukus = Buku::with('kategoris')->latest()->get();
 
         return view('admin.buku.index', compact('bukus'));
     }
@@ -37,7 +37,7 @@ class AdminBukuController extends Controller
     {
         $request->validate([
             'judul' => 'required',
-            'kategori_id' => 'required',
+            'kategori_id' => 'required|array',
             'stok' => 'required|integer',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
@@ -48,12 +48,14 @@ class AdminBukuController extends Controller
             $namaGambar = $request->file('gambar')->store('buku', 'public');
         }
 
-        Buku::create([
+        $buku = Buku::create([
             'judul' => $request->judul,
-            'kategori_id' => $request->kategori_id,
             'stok' => $request->stok,
             'gambar' => $namaGambar
         ]);
+
+        // SIMPAN KE PIVOT
+        $buku->kategoris()->attach($request->kategori_id);
 
         return redirect()->route('admin.buku.index');
     }
@@ -74,7 +76,7 @@ class AdminBukuController extends Controller
     {
         $request->validate([
             'judul' => 'required',
-            'kategori_id' => 'required',
+            'kategori_id' => 'required|array',
             'stok' => 'required|integer',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
@@ -92,10 +94,12 @@ class AdminBukuController extends Controller
 
         $buku->update([
             'judul' => $request->judul,
-            'kategori_id' => $request->kategori_id,
             'stok' => $request->stok,
             'gambar' => $namaGambar
         ]);
+
+        // UPDATE PIVOT
+        $buku->kategoris()->sync($request->kategori_id);
 
         return redirect()->route('admin.buku.index');
     }

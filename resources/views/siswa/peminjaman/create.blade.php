@@ -1,10 +1,10 @@
-@include('admin.layouts.header')
+@include('siswa.layouts.header')
 
 <body class="sb-nav-fixed">
-    @include('admin.layouts.navbar')
+    @include('siswa.layouts.navbar')
 
     <div id="layoutSidenav">
-        @include('admin.layouts.sidebar')
+        @include('siswa.layouts.sidebar')
 
         <div id="layoutSidenav_content">
             <main>
@@ -76,7 +76,7 @@
                 </div>
             </main>
 
-            @include('admin.layouts.footer')
+            @include('siswa.layouts.footer')
         </div>
     </div>
 </body>
