@@ -69,57 +69,48 @@
 
                     <div class="card mb-4">
                         <div class="card-body">
+                            <div class="row">
+                                @foreach($bukus as $buku)
+                                <div class="col-md-3 mb-4">
+                                    <div class="card h-100 shadow-sm">
 
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Judul</th>
-                                        <th>Kategori</th>
-                                        <th>Gambar</th>
-                                        <th>Stok</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
+                                        @if($buku->gambar)
+                                        <img src="{{ asset('storage/'.$buku->gambar) }}"
+                                            class="card-img-top"
+                                            style="height:200px; object-fit:cover;">
+                                        @else
+                                        <div class="d-flex align-items-center justify-content-center bg-light" style="height:200px;">
+                                            Tidak Ada Gambar
+                                        </div>
+                                        @endif
 
-                                <tbody>
-                                    @foreach($bukus as $buku)
-                                    <tr>
-                                        <td>{{ $buku->judul }}</td>
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title">{{ $buku->judul }}</h5>
+                                            <p class="card-text mb-1">
+                                                <strong>Kategori:</strong> {{ $buku->kategori->nama_kategori }}
+                                            </p>
+                                            <p class="card-text mb-2">
+                                                <strong>Stok:</strong> {{ $buku->stok }}
+                                            </p>
 
-                                        <td>{{ $buku->kategori->nama_kategori }}</td>
+                                            <div class="mt-auto">
+                                                @if($buku->stok > 0)
+                                                <a href="{{ route('siswa.pinjam.form',$buku->id) }}"
+                                                    class="btn btn-primary w-100">
+                                                    Pinjam
+                                                </a>
+                                                @else
+                                                <span class="badge bg-danger w-100 d-block text-center">
+                                                    Habis
+                                                </span>
+                                                @endif
+                                            </div>
+                                        </div>
 
-                                        <td>
-                                            @if($buku->gambar)
-                                            <img src="{{ asset('storage/'.$buku->gambar) }}"
-                                                width="70"
-                                                height="90"
-                                                style="object-fit:cover;">
-                                            @else
-                                            Tidak Ada
-                                            @endif
-                                        </td>
-
-                                        <td>{{ $buku->stok }}</td>
-
-                                        <td>
-                                            @if($buku->stok > 0)
-
-                                            <a href="{{ route('siswa.pinjam.form',$buku->id) }}"
-                                                class="btn btn-primary btn-sm">
-                                                Pinjam
-                                            </a>
-
-                                            @else
-                                            <span class="badge bg-danger">
-                                                Habis
-                                            </span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-
-                            </table>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
 
                         </div>
                     </div>

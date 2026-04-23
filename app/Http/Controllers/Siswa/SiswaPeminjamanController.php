@@ -69,7 +69,7 @@ class SiswaPeminjamanController extends Controller
         // Kurangi stok
         $buku->decrement('stok');
 
-        return redirect()->route('siswa.peminjaman')
+        return redirect()->route('siswa.peminjaman.index')
             ->with('success', 'Buku berhasil dipinjam');
     }
 
